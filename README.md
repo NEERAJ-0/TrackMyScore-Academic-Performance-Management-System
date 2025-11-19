@@ -117,9 +117,6 @@ TrackMyScore/
 │── manage.py
 └── README.md
 
-📸 Screenshots (Add your images here)
-
-Upload images to GitHub → insert their links.
 
 🔐 Login Page
 
