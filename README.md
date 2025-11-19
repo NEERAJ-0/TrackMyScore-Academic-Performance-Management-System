@@ -165,6 +165,7 @@ TrackMyScore/
 ⚙️ Installation Guide
 1️⃣ Clone the Repository
 git clone https://github.com/NEERAJ-0/TrackMyScore-Academic-Performance-Management-System
+
 cd TrackMyScore
 
 2️⃣ Create Virtual Environment
