@@ -1,0 +1,43 @@
+{% extends "master.html" %}
+{% block title %}Display Marks{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-4 white-card" style="max-width:950px; border-radius:14px;">
+
+    <h2 class="text-center mb-4" style="color:#008cff;">Student Marks - DISPLAY</h2>
+
+    <div class="table-responsive">
+      <table class="table table-hover text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>RegNo</th>
+            <th>Name</th>
+            <th>Paper</th>
+            <th>Exam</th>
+            <th>Batch</th>
+            <th>Marks</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for m in page_obj.object_list %}
+          <tr>
+            <td>{{ m.student.regno }}</td>
+            <td>{{ m.student.name }}</td>
+            <td>{{ m.paper.code }}</td>
+            <td>{{ m.exam_type }}</td>
+            <td>{{ m.batch.name }}</td>
+            <td>{{ m.marks }}</td>
+            <td>{{ m.created_at|date:"d M Y" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-muted">No marks found.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

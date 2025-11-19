@@ -1,0 +1,31 @@
+{% extends "master.html" %}
+{% block title %}Edit Marks{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-4" style="max-width:600px; border-radius:14px; background:#fff;">
+
+    <h2 class="text-center mb-3" style="color:#008cff;">Student Marks - EDIT</h2>
+
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="alert alert-success alert-dismissible fade show">{{ msg }}
+          <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      {{ form.as_p }}
+
+      <div class="d-flex justify-content-between mt-3">
+        <a class="btn btn-outline-dark px-4" href="{% url 'updatestudentmarks' %}">Cancel</a>
+        <button class="btn btn-primary px-4" type="submit">Save</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

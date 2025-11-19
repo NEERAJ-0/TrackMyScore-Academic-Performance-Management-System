@@ -1,0 +1,72 @@
+{% extends "master.html" %}
+{% block title %}Update Student{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-4 white-card center-card" style="max-width:560px; border-radius:14px;">
+
+    <h2 class="text-center mb-4" style="color:#008cff; font-weight:700;">
+      Student Master - UPDATE
+    </h2>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags|default:'info' }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ form.batch.id_for_label }}" class="form-label fw-semibold">Batch</label>
+        {{ form.batch }}
+        {% if form.batch.errors %}
+          <div class="form-text text-danger">{{ form.batch.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.regno.id_for_label }}" class="form-label fw-semibold">Registration No</label>
+        {{ form.regno }}
+        {% if form.regno.errors %}
+          <div class="form-text text-danger">{{ form.regno.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.name.id_for_label }}" class="form-label fw-semibold">Student Name</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+          <div class="form-text text-danger">{{ form.name.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <div class="form-text text-danger">{{ form.email.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-check mb-3">
+        {{ form.is_active }} <label class="form-check-label ms-2" for="{{ form.is_active.id_for_label }}">Active</label>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'updatestudent' %}" class="btn btn-outline-dark px-4">Cancel</a>
+        <button type="submit" class="btn btn-primary px-4">Save</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

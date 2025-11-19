@@ -1,0 +1,85 @@
+{% extends "master.html" %}
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-3 white-card center-card" style="max-width:780px; border-radius:14px;">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h2 class="mb-0" style="color:#008cff; font-weight:700;">Reports</h2>
+      <small class="text-muted">Download CSV exports (use the query box to filter)</small>
+    </div>
+
+    <div class="row g-2">
+      <!-- Course -->
+      <div class="col-md-6">
+        <div class="card p-2 h-100">
+          <h5>Courses</h5>
+          <form method="get" action="{% url 'export_courses_csv' %}" class="d-flex gap-2">
+            <input type="text" name="query" class="form-control" placeholder="filter by name or id">
+            <button class="btn btn-primary">Export CSV</button>
+          </form>
+          <div class="mt-2">
+            <a href="{% url 'displaycourse' %}" class="small">View courses</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batches -->
+      <div class="col-md-6">
+        <div class="card p-2 h-100">
+          <h5>Batches</h5>
+          <form method="get" action="{% url 'export_batches_csv' %}" class="d-flex gap-2">
+            <input type="text" name="query" class="form-control" placeholder="filter by batch name / year / course">
+            <button class="btn btn-primary">Export CSV</button>
+          </form>
+          <div class="mt-2"><a href="{% url 'displaybatch' %}" class="small">View batches</a></div>
+        </div>
+      </div>
+
+      <!-- Papers -->
+      <div class="col-md-6">
+        <div class="card p-2 h-100">
+          <h5>Papers</h5>
+          <form method="get" action="{% url 'export_papers_csv' %}" class="d-flex gap-2">
+            <input type="text" name="query" class="form-control" placeholder="filter by code / name / type">
+            <button class="btn btn-primary">Export CSV</button>
+          </form>
+          <div class="mt-2"><a href="{% url 'displaypaper' %}" class="small">View papers</a></div>
+        </div>
+      </div>
+
+      <!-- Students -->
+      <div class="col-md-6">
+        <div class="card p-2 h-100">
+          <h5>Students</h5>
+          <form method="get" action="{% url 'export_students_csv' %}" class="d-flex gap-2">
+            <input type="text" name="query" class="form-control" placeholder="filter by regno / name / batch / course">
+            <button class="btn btn-primary">Export CSV</button>
+          </form>
+          <div class="mt-2"><a href="{% url 'displaystudent' %}" class="small">View students</a></div>
+        </div>
+      </div>
+
+      <!-- Marks -->
+      <div class="col-12">
+        <div class="card p-2 h-100">
+          <h5>Student Marks</h5>
+          <form method="get" action="{% url 'export_marks_csv' %}" class="row g-2 align-items-center">
+            <div class="col-md-6">
+              <input type="text" name="query" class="form-control" placeholder="search regno / student / paper / batch / exam">
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-primary">Export CSV</button>
+            </div>
+            <div class="col-12 mt-2">
+              <small class="text-muted">Tip: use RegNo to export only one student's marks (e.g. query=REG123)</small>
+            </div>
+          </form>
+          <div class="mt-2"><a href="{% url 'displaystudentmarks' %}" class="small">View marks</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

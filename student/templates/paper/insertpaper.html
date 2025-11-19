@@ -1,0 +1,77 @@
+{% extends "master.html" %}
+{% block title %}Paper Entry{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-4" style="width: 500px; border-radius: 14px; background: #ffffff;">
+
+    <h2 class="text-center mb-4" style="color:#008cff; font-weight:700;">
+      Paper Master - INSERT
+    </h2>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-warning">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <!-- Inline Alerts -->
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags|default:'info' }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" action="{% url 'insertpaper' %}">
+      {% csrf_token %}
+
+      <!-- Paper Code -->
+      <div class="mb-3">
+        <label for="{{ form.code.id_for_label }}" class="form-label fw-semibold text-dark">Paper Code</label>
+        {{ form.code }}
+        {% if form.code.errors %}
+          <div class="form-text text-danger">{{ form.code.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Paper Name -->
+      <div class="mb-3">
+        <label for="{{ form.name.id_for_label }}" class="form-label fw-semibold text-dark">Paper Name</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+          <div class="form-text text-danger">{{ form.name.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Paper Type -->
+      <div class="mb-3">
+        <label for="{{ form.paper_type.id_for_label }}" class="form-label fw-semibold text-dark">Paper Type</label>
+        {{ form.paper_type }}
+        <div class="form-text"></div>
+        {% if form.paper_type.errors %}
+          <div class="form-text text-danger">{{ form.paper_type.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Max Marks -->
+      <div class="mb-3">
+        <label for="{{ form.max_marks.id_for_label }}" class="form-label fw-semibold text-dark">Max Marks</label>
+        {{ form.max_marks }}
+        {% if form.max_marks.errors %}
+          <div class="form-text text-danger">{{ form.max_marks.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'insertpaper' %}" class="btn btn-outline-dark px-4">Clear</a>
+        <button type="submit" class="btn btn-primary px-4">Submit</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}

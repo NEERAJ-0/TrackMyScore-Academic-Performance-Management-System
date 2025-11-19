@@ -1,0 +1,76 @@
+{% extends "master.html" %}
+{% block title %}Insert Marks{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card shadow-lg p-3" style="width: 600px; border-radius: 14px; background:#fff;">
+
+    <h2 class="text-center mb-2" style="color:#008cff; font-weight:700;">
+      Student Marks - INSERT
+    </h2>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-warning">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" action="{% url 'insertstudentmarks' %}">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-dark">Student</label>
+        {{ form.student }}
+        {% if form.student.errors %}
+          <div class="text-danger">{{ form.student.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-dark">Paper</label>
+        {{ form.paper }}
+        {% if form.paper.errors %}
+          <div class="text-danger">{{ form.paper.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-dark">Exam Type</label>
+        {{ form.exam_type }}
+        {% if form.exam_type.errors %}
+          <div class="text-danger">{{ form.exam_type.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-dark">Batch</label>
+        {{ form.batch }}
+        {% if form.batch.errors %}
+          <div class="text-danger">{{ form.batch.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-dark">Marks</label>
+        {{ form.marks }}
+        {% if form.marks.errors %}
+          <div class="text-danger">{{ form.marks.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <a class="btn btn-outline-dark px-4" href="{% url 'insertstudentmarks' %}">Clear</a>
+        <button class="btn btn-primary px-4" type="submit">Submit</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

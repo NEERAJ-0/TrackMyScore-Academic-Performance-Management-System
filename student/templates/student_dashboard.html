@@ -1,0 +1,125 @@
+{% extends "master.html" %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card white-card center-card p-4" style="max-width:900px;">
+
+    <!-- Header + RegNo form + CSV actions -->
+    <div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+    <div>
+        <h3 class="mb-1">Welcome, {{ request.user.get_full_name|default:request.user.username }}</h3>
+        {% if student %}
+        <div class="small text-muted">Viewing: <strong>{{ student.name }}</strong> — RegNo: <strong>{{ student.regno }}</strong></div>
+        {% elif requested_regno %}
+        <div class="small text-warning">No student found for RegNo <strong>{{ requested_regno }}</strong></div>
+        {% else %}
+        <div class="small text-muted">No student selected. Enter a RegNo to view/download marks.</div>
+        {% endif %}
+    </div>
+
+    <div class="d-flex align-items-start gap-2">
+        <form method="get" class="d-flex gap-2 mb-3">
+        <input
+            type="text"
+            name="regno"
+            class="form-control"
+            placeholder="Enter RegNo"
+            value="{{ requested_regno }}"
+        >
+        <button class="btn btn-primary">Search</button>
+        </form>
+
+        <a id="csv-by-regno" class="btn btn-outline-primary btn-sm"
+        href="{% url 'export_marks_csv' %}{% if requested_regno %}?regno={{ requested_regno }}{% endif %}">
+        Download by RegNo
+        </a>
+    </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="p-3 border rounded h-100">
+          <div class="small text-muted">Average</div>
+          <div class="h4 mb-0">{{ avg_mark|default:"0" }}</div>
+          <div class="small text-muted">Avg marks across all exams</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-3 border rounded h-100">
+          <div class="small text-muted">Pass %</div>
+          <div class="h4 mb-0">{{ pass_percent|default:"0" }}%</div>
+          <div class="small text-muted">Based on pass rule</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content: Latest marks + Top subjects -->
+    <div class="row g-3">
+      <div class="col-md-7">
+        <h5 class="mb-2">Latest Marks</h5>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead class="table-light">
+              <tr><th>Paper</th><th>Exam</th><th>Marks</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+              {% if last_marks %}
+                {% for m in last_marks %}
+                <tr>
+                  <td>{{ m.paper.name }}</td>
+                  <td>{{ m.exam_type }}</td>
+                  <td>{{ m.marks }}</td>
+                  <td>{{ m.created_at|date:"d M Y" }}</td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr><td colspan="4" class="text-muted">No marks yet.</td></tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <h5 class="mb-2">Top Subjects (avg)</h5>
+        <ul class="list-group">
+          {% if subject_stats %}
+            {% for s in subject_stats %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ s.paper__name }} <span class="badge bg-primary rounded-pill">{{ s.avg|floatformat:2 }}</span>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li class="list-group-item text-muted">No subject stats</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+   </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var input = document.querySelector('form input[name="regno"]');
+  var csvLink = document.getElementById('csv-by-regno');
+  if (!input || !csvLink) return;
+
+  function updateHref() {
+    var val = input.value.trim();
+    if (val) {
+      csvLink.href = "{% url 'export_marks_csv' %}" + "?regno=" + encodeURIComponent(val);
+    } else {
+      csvLink.href = "{% url 'export_marks_csv' %}";
+    }
+  }
+
+  // update on load and while typing
+  updateHref();
+  input.addEventListener('input', updateHref);
+});
+</script>
+
+{% endblock %}
